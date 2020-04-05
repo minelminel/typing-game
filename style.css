@@ -1,26 +1,31 @@
+/* CUSTOM SYTLES */
+:root {
+    --light-red: #ffc0c0;
+}
 body {
-    background-color: #608094;
+    background-color: var(--info);
 }
 .container {
-    border: 1px dotted green;
     max-width: 60%;
     min-height: 100vh;
     background-color: #fff;
 }
-.wordbox {
-    margin-top: 100px;
+#sliderbox {
+    margin-top: 60px;
+    margin-bottom: 40px;
+}
+#wordbox {
+    margin-top: 20px;
     margin-bottom: 20px;
-    border: 1px solid gray;
     font-size: 2em;
     min-height: 2em;
 }
 #typebox {
-    border: 1px solid brown;
     font-size: 2em;
     min-height: 2em;
     min-width: 100%;
     text-align: center;
-    background-color: #fcfcfc;
+    background-color: var(--light);
 }
 #clockbox {
     margin-top: 20px;
