@@ -7,6 +7,12 @@ let timeTakenInMS;
 var clockBox = document.getElementById('clockbox');
 // this is where the user enters their text
 var typeBox = document.getElementById('typebox');
+// figure out how many words to display
+var rangeSlider = document.getElementById('rangeSlider');
+var wordCount = document.getElementById('wordCountLabel');
+rangeSlider.oninput = function() {
+    wordCount.innerText = rangeSlider.value;
+}
 
 // all the possible words we can choose from
 const vocabulary = [
@@ -23,30 +29,39 @@ const vocabulary = [
     'oven',
     'stay',
     'nondescript',
-    // quotes
-    'democratic socialism means that we must create an economy that works for all, not just the very wealthy',
-    'compassion is not weakness, and concern for the unfortunate is not socialism',
-    'capitalism is war, socialism is peace',
 ];
 
-function sample(array) {
-    return array[~~(Math.random() * array.length)];
+function getRandom(arr, n) {
+    var result = new Array(n),
+        len = arr.length,
+        taken = new Array(len);
+    if (n > len)
+        throw new RangeError("getRandom: more elements taken than available");
+    while (n--) {
+        var x = Math.floor(Math.random() * len);
+        result[n] = arr[x in taken ? taken[x] : x];
+        taken[x] = --len in taken ? taken[len] : len;
+    }
+    return result;
 }
 
 // on page load, set the first word
 window.onload = function() {
+    // display the default range slider label
+    wordCount.innerText = rangeSlider.value;
     typeBox.focus();
-    var rand = sample(vocabulary);
-    wordBox.innerHTML = rand;
-    targetWord = rand;
+    targetWord = getRandom(vocabulary, 3).join(' ');
+    wordBox.innerHTML = targetWord;
 }
 
+// fires every time a character is typed
 typeBox.oninput = function() {
     if (typeBox.value == targetWord) {
         clockBox.innerText = `⏱ ${(Date.now() - timeTakenInMS) / 1000} sec`;
-        targetWord = sample(vocabulary);
+        targetWord = getRandom(vocabulary, 3).join(' ')
         wordBox.innerHTML = targetWord;
         typeBox.value = '';
+        typeBox.style.borderColor = '';
         timeTakenInMS = undefined;
     } else {
         if (! timeTakenInMS) {
@@ -54,15 +69,19 @@ typeBox.oninput = function() {
         }
         wordBox.innerHTML = '';
         let letterColor, letterHtml;
+        var correctSoFar = true;
         for (let i=0; i<targetWord.length; i++) {
             if (i < typeBox.value.length) {
-                if (typeBox.value[i] == targetWord[i]) {
+                if (typeBox.value[i] == targetWord[i] && correctSoFar == true) {
                     letterColor = 'var(--green)';
+                    typeBox.style.backgroundColor = 'var(--light)';
                 } else {
                     // as soon as there is an incorrect letter typed,
                     // the rest of the letters up till the length of
                     // entered chars should be red to show the mistake
                     letterColor = 'var(--red)';
+                    correctSoFar = false;
+                    typeBox.style.backgroundColor = 'var(--light-red)';
                 }
             }
             else {
