@@ -7,7 +7,7 @@ AUTHOR=minelminel
 
 help:
 	@echo "==> Available Commands"
-	@echo "	make build	--	Build an updated Docker image and tag it as `:latest`"
+	@echo "	make build	--	Build an updated Docker image and tag it as :latest"
 	@echo "	make run	--	Run the latest Docker image (non-daemon mode)"
 	@echo "	make tag	--	Tag the latest image in preparation for pushing to registry"
 	@echo "	make push	--	Push the latest image to the registry"
