@@ -168,6 +168,13 @@ typeBox.oninput = function() {
         if (! timeTakenInMS) {
             timeTakenInMS = Date.now();
         }
+        // Underline the current letter we should type
+        let theBefore, theLetter, theAfter;
+        theLetter = targetWord[typeBox.value.length];
+        theBefore = typeBox.value ? targetWord.slice(0, typeBox.value.length) : '';
+        theAfter = (typeBox.value.length != targetWord.length + 1) ? targetWord.slice(typeBox.value.length + 1) : '';
+        wordBox.innerHTML = `${theBefore}<span style="border-bottom: 1px dashed var(--indigo)">${theLetter}</span>${theAfter}`
+
         var correctSoFar = true;
         for (let i=0; i<targetWord.length; i++) {
             if (i < typeBox.value.length) {
