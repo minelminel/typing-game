@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: typing-game-deployment
+  labels:
+    app: typing-game
+spec:
+  selector:
+    matchLabels:
+      app: typing-game
+  template:
+    metadata:
+      labels:
+        app: typing-game
+    spec:
+      containers:
+      - name: typing-game
+        image: localhost:32000/minelminel/typing-game:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
